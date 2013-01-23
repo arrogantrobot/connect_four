@@ -15,10 +15,12 @@ public:
 	Board();
 	~Board();
 	player getPosition(int x, int y) const;
-	
+	bool playAt(int x, player p1);
 
 private:
 	player board[WIDTH][HEIGHT];
+	int rowCount[WIDTH];
+	bool canPlay(int x) const;
 };
 
 #endif
