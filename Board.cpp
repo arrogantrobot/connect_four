@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <limits.h>
 
 Board::Board() {
     initBoard();
@@ -36,9 +37,94 @@ Board::~Board() {
 
 }
 
-int Board::getScore() {
-    srand((unsigned)time(0)+(unsigned)getpid());
-    return rand() % 10 + 1;
+int Board::getScore(player p) {
+    int score = 0;
+    player who;
+    if (fourInARow(who)) {
+        if (p != who)
+            score = INT_MIN;
+        else 
+            score = INT_MAX;
+    }
+
+    return score;
+}
+
+bool Board::fourInARow(player &p) {
+    for (int x = 0; x < WIDTH; x++) {
+        for (int y = 0; y < HEIGHT; y++) {
+            if (board[x][y]) {
+                for (int direction = 0; direction < 8; direction++) {
+                    if(fourInThisRow(x, y, direction) == 4) {
+                        p = board[x][y];
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+}
+
+int Board::fourInThisRow(int x, int y, int direction) {
+    int answer = 1;
+    switch (direction) {
+        case 0: if (x < WIDTH - 1) {
+                    if (board[x + 1][y] == board[x][y]) {
+                        answer += fourInThisRow(x + 1, y, direction);
+                    }
+                }
+                break;
+
+        case 1: if (x < WIDTH - 1 && y < HEIGHT - 1) {
+                    if (board[x + 1][y + 1] == board[x][y]) {
+                        answer += fourInThisRow(x + 1, y + 1, direction);
+                    }
+                }
+                break;
+
+        case 2: if (y < HEIGHT - 1) {
+                    if (board[x][y + 1] == board[x][y]) {
+                        answer += fourInThisRow(x, y + 1, direction);
+                    }
+                }
+                break;
+
+        case 3: if (x > 0 && y < HEIGHT - 1) {
+                    if (board[x - 1][y + 1] == board[x][y]) {
+                        answer += fourInThisRow(x - 1, y + 1, direction);
+                    }
+                }
+                break;
+
+        case 4: if (x > 0) {
+                    if (board[x - 1][y] == board[x][y]) {
+                        answer += fourInThisRow(x - 1, y, direction);
+                    }
+                }
+                break;
+
+        case 5: if (x > 0 && y > 0) {
+                    if (board[x - 1][y - 1] == board[x][y]) {
+                        answer += fourInThisRow(x - 1, y - 1, direction);
+                    }
+                }
+                break;
+
+        case 6: if (y > 0) {
+                    if (board[x][y - 1] == board[x][y]) {
+                        answer += fourInThisRow(x, y - 1, direction);
+                    }
+                }
+                break;
+
+        case 7: if (x < WIDTH - 1 && y > 0) {
+                    if (board[x][y - 1] == board[x][y]) {
+                        answer += fourInThisRow(x, y - 1, direction);
+                    }
+                }
+                break;
+    }
+    return answer;
 }
 
 void Board::displayBoard() {

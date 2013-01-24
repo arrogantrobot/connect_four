@@ -18,7 +18,7 @@ int MiniMaxTree::getBestMove() {
 BestMove MiniMaxTree::getBestMoveScore(Board *board, player p, int currentPly) {
     BestMove bestMove;
     if (currentPly == 0) {
-        bestMove.score = board->getScore();
+        bestMove.score = board->getScore(p);
         return bestMove;
     }
     player next = (p == PLAYER_ONE) ? PLAYER_TWO : PLAYER_ONE;
