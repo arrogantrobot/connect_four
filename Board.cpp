@@ -2,6 +2,9 @@
 #include <assert.h>
 #include <string.h>
 #include <fstream>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 
 Board::Board() {
     initBoard();
@@ -21,18 +24,47 @@ Board::Board(const std::string &path) {
                 return;
             }
         }
+        initRowCount();
     }
 }
+
+/*Board::Board(const Board &board) {
+    
+}*/
 
 Board::~Board() {
 
 }
 
+int Board::getScore() {
+    srand((unsigned)time(0)+(unsigned)getpid());
+    return rand() % 10 + 1;
+}
+
+void Board::displayBoard() {
+    for (int y = HEIGHT - 1; y >= 0; y--) {
+        for (int x = 0; x < WIDTH; x++) {
+            printf("%d ", getPosition(x,y));
+        }
+        printf("\n");
+    }
+}
+
+
 void Board::initBoard() {
+    score = 0;
     for (int x = 0; x < WIDTH; x++) {
         rowCount[x] = 0;
         for(int y = 0; y < HEIGHT; y++) {
             board[x][y] = OPEN;
+        }
+    }
+}
+
+void Board::initRowCount() {
+    for (int x = 0; x < WIDTH; x++) {
+        for(int y = 0; y < HEIGHT; y++) {
+            if (board[x][y]) rowCount[x]++;
         }
     }
 }

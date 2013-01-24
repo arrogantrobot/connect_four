@@ -19,13 +19,18 @@ class Board {
         ~Board();
         player getPosition(int x, int y) const;
         bool playAt(int x, player p1);
+        bool canPlay(int x) const;
+        int getScore();
+        void unPlayAt(int x);
+        void displayBoard();
 
     private:
         void initBoard();
+        void initRowCount();
         void addLine(const std::string &line, int row);
         player board[WIDTH][HEIGHT];
+        int score;
         int rowCount[WIDTH];
-        bool canPlay(int x) const;
 };
 
 #endif
