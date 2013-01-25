@@ -18,6 +18,7 @@ class MiniMaxTree {
         BestMove getBestMoveScore(Board board, player p, int ply);
     private:
         int ply;
+        int nodesVisited;
         Board rootBoard;
 };
 #endif

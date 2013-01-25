@@ -64,8 +64,8 @@ bool Board::fourInARow(player &p) {
                 for (int direction = 0; direction < 8; direction++) {
                     if(fourInThisRow(x, y, direction) == 4) {
                         p = board[x][y];
-                        printf("Found 4 in a row, from player: %d\n", p);
-                        displayBoard();
+                        //printf("Found 4 in a row, from player: %d\n", p);
+                        //displayBoard();
                         return true;
                     }
                 }
