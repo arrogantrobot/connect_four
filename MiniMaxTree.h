@@ -15,7 +15,7 @@ class MiniMaxTree {
         MiniMaxTree(const Board &_board, int ply);
         ~MiniMaxTree();
         int getBestMove();
-        BestMove getBestMoveScore(Board *board, player p, int ply);
+        BestMove getBestMoveScore(Board board, player p, int ply);
     private:
         int ply;
         Board rootBoard;

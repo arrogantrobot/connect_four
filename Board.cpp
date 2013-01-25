@@ -37,16 +37,23 @@ Board::~Board() {
 
 }
 
+void Board::initBoard() {
+    score = 0;
+    lastMove = -1;
+    for (int x = 0; x < WIDTH; x++) {
+        rowCount[x] = 0;
+        for(int y = 0; y < HEIGHT; y++) {
+            board[x][y] = OPEN;
+        }
+    }
+}
+
 int Board::getScore(player p) {
     int score = 0;
     player who;
-    if (fourInARow(who)) {
-        if (p != who)
-            score = INT_MIN;
-        else 
-            score = INT_MAX;
-    }
-
+    if (fourInARow(who))
+        score = (p == who) ? INT_MIN : score = INT_MAX;
+    
     return score;
 }
 
@@ -57,6 +64,8 @@ bool Board::fourInARow(player &p) {
                 for (int direction = 0; direction < 8; direction++) {
                     if(fourInThisRow(x, y, direction) == 4) {
                         p = board[x][y];
+                        printf("Found 4 in a row, from player: %d\n", p);
+                        displayBoard();
                         return true;
                     }
                 }
@@ -128,22 +137,21 @@ int Board::fourInThisRow(int x, int y, int direction) {
 }
 
 void Board::displayBoard() {
+    printf("\n");
     for (int y = HEIGHT - 1; y >= 0; y--) {
         for (int x = 0; x < WIDTH; x++) {
             printf("%d ", getPosition(x,y));
         }
         printf("\n");
     }
+    printf("last move: %d\n", lastMove);
+    displayRowCount();
+    printf("\n");
 }
 
-
-void Board::initBoard() {
-    score = 0;
-    for (int x = 0; x < WIDTH; x++) {
-        rowCount[x] = 0;
-        for(int y = 0; y < HEIGHT; y++) {
-            board[x][y] = OPEN;
-        }
+void Board::displayRowCount() {
+    for (int i = 0; i < WIDTH; i++) {
+        printf("row: %d   pieces: %d\n", i, rowCount[i]);
     }
 }
 
@@ -175,7 +183,18 @@ bool Board::playAt(int x, player p1) {
         return false;
     board[x][rowCount[x]] = p1;
     rowCount[x]++;
+    lastMove = x;
     return true;
+}
+
+void Board::unPlayAt(int x) {
+    rowCount[x]--;
+    board[x][rowCount[x]] = OPEN;
+    lastMove = -1;
+}
+
+int Board::getLastMove() const {
+    return lastMove;
 }
 
 bool Board::canPlay(int x) const {

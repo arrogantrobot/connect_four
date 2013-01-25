@@ -21,8 +21,10 @@ class Board {
         bool playAt(int x, player p1);
         bool canPlay(int x) const;
         int getScore(player p);
+        int getLastMove() const;
         void unPlayAt(int x);
         void displayBoard();
+        void displayRowCount();
 
     private:
         void initBoard();
@@ -34,6 +36,7 @@ class Board {
         player board[WIDTH][HEIGHT];
         int score;
         int rowCount[WIDTH];
+        int lastMove;
 };
 
 #endif
