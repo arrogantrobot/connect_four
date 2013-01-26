@@ -19,18 +19,18 @@ class Board {
         ~Board();
         player getPosition(int x, int y) const;
         bool playAt(int x, player p1);
-        bool canPlay(int x) const;
+        bool canPlay(int x);
         int getScore(player p);
         int getLastMove() const;
         void unPlayAt(int x);
         void displayBoard();
         void displayRowCount();
+        bool fourInARow(player &p);
 
     private:
         void initBoard();
         void initRowCount();
         void addLine(const std::string &line, int row);
-        bool fourInARow(player &p);
         int fourInThisRow(int x, int y, int direction);
 
         player board[WIDTH][HEIGHT];

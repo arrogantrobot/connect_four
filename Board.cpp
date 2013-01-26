@@ -52,21 +52,23 @@ int Board::getScore(player p) {
     int score = 0;
     player who;
     if (fourInARow(who))
-        score = (p == who) ? INT_MIN : score = INT_MAX;
+        score = (p != who) ? INT_MIN : score = INT_MAX;
     
     return score;
 }
 
 bool Board::fourInARow(player &p) {
     for (int x = 0; x < WIDTH; x++) {
-        for (int y = 0; y < HEIGHT; y++) {
-            if (board[x][y]) {
-                for (int direction = 0; direction < 8; direction++) {
-                    if(fourInThisRow(x, y, direction) == 4) {
-                        p = board[x][y];
-                        //printf("Found 4 in a row, from player: %d\n", p);
-                        //displayBoard();
-                        return true;
+        if (rowCount[x]) {
+            for (int y = 0; y < HEIGHT; y++) {
+                if (board[x][y]) {
+                    for (int direction = 0; direction < 8; direction++) {
+                        if(fourInThisRow(x, y, direction) == 4) {
+                            p = board[x][y];
+                            printf("Found 4 in a row, from player: %d\n", p);
+                            displayBoard();
+                            return true;
+                        }
                     }
                 }
             }
@@ -197,6 +199,6 @@ int Board::getLastMove() const {
     return lastMove;
 }
 
-bool Board::canPlay(int x) const {
-    return rowCount[x] < HEIGHT;	
+bool Board::canPlay(int x) {
+    return rowCount[x] < HEIGHT;
 }
