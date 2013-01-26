@@ -63,7 +63,7 @@ bool Board::fourInARow(player &p) {
     for (int x = 0; x < WIDTH; x++) {
         if (rowCount[x]) {
             for (int y = 0; y < HEIGHT; y++) {
-                if (board[x][y]) {
+                if (rowCount[x] > y && board[x][y]) {
                     for (int direction = 0; direction < 8; direction++) {
                         if(fourInThisRow(x, y, direction) == 4) {
                             p = board[x][y];
