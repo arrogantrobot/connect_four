@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
     std::string path = argv[1];
     Board b(path);
     b.displayBoard();
-    MiniMaxTree miniMaxTree(b, 6);
+    MiniMaxTree miniMaxTree(b, 8);
     int move = miniMaxTree.getBestMove();
     b.playAt(move, PLAYER_ONE);
     printf("\n\n");

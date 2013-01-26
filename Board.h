@@ -32,11 +32,14 @@ class Board {
         void initRowCount();
         void addLine(const std::string &line, int row);
         int fourInThisRow(int x, int y, int direction);
+        void populatePositionValues();
+        int getPositionalScore(player p) const;
 
         player board[WIDTH][HEIGHT];
         int score;
         int rowCount[WIDTH];
         int lastMove;
+        int positionValues[WIDTH][HEIGHT];
 };
 
 #endif

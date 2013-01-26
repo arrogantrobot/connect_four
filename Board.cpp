@@ -40,6 +40,7 @@ Board::~Board() {
 void Board::initBoard() {
     score = 0;
     lastMove = -1;
+    populatePositionValues();
     for (int x = 0; x < WIDTH; x++) {
         rowCount[x] = 0;
         for(int y = 0; y < HEIGHT; y++) {
@@ -51,6 +52,7 @@ void Board::initBoard() {
 int Board::getScore(player p) {
     int score = 0;
     player who;
+    score += getPositionalScore(p);
     if (fourInARow(who))
         score = (p != who) ? INT_MIN : score = INT_MAX;
     
@@ -65,8 +67,8 @@ bool Board::fourInARow(player &p) {
                     for (int direction = 0; direction < 8; direction++) {
                         if(fourInThisRow(x, y, direction) == 4) {
                             p = board[x][y];
-                            printf("Found 4 in a row, from player: %d\n", p);
-                            displayBoard();
+                            //printf("Found 4 in a row, from player: %d\n", p);
+                            //displayBoard();
                             return true;
                         }
                     }
@@ -201,4 +203,36 @@ int Board::getLastMove() const {
 
 bool Board::canPlay(int x) {
     return rowCount[x] < HEIGHT;
+}
+
+int Board::getPositionalScore(player p) const {
+    int answer = 0;
+    for (int x = 0; x < WIDTH; x++) {
+        for (int y = 0; y < HEIGHT; y++) {
+            if (board[x][y] == p)
+                answer += positionValues[x][y];
+        }
+    }
+    return answer;
+}
+
+void Board::populatePositionValues() {
+    int xInc = 1, yInc = 1;
+    int xMid = WIDTH / 2;
+    int yMid = HEIGHT / 2;
+    int xVal = 0, yVal = 0;
+    for (int x = 0; x < WIDTH; x++) {
+        if (x > xMid) xInc = -1;
+        xVal = xVal + xInc ;
+        for (int y = 0; y < HEIGHT; y++) {
+            positionValues[x][y] = xVal;
+        }
+    }
+    for (int y = 0; y < HEIGHT; y++) {
+        if (y > yMid) yInc = -1;
+        yVal = yVal + yInc ;
+        for (int x = 0; x < WIDTH; x++) {
+            positionValues[x][y] += yVal;
+        }
+    }
 }
