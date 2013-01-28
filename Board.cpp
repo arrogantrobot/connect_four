@@ -7,7 +7,8 @@
 #include <time.h>
 #include <limits.h>
 
-Board::Board() {
+Board::Board(): score(0), lastMove(-1), fiar(OPEN), fiarSet(false),
+        fourInARowFound(false) {
     initBoard();
 }
 
@@ -49,10 +50,11 @@ bool Board::operator==(const Board& rhs) const {
 void Board::initBoard() {
     score = 0;
     lastMove = -1;
-    populatePositionValues();
     fiar = OPEN;
     fourInARowFound = false;
     fiarSet = false;
+    populatePositionValues();
+
     for (int x = 0; x < WIDTH; x++) {
         rowCount[x] = 0;
         for(int y = 0; y < HEIGHT; y++) {
@@ -61,20 +63,18 @@ void Board::initBoard() {
     }
 }
 
-int Board::getScore(player p) {
+int Board::getScore(const player p) const {
     int score = 0;
-    player who;
+    player who = OPEN;
     score += getPositionalScore(p);
     if (fourInARow(who))
         score = INT_MAX;
-    
     return score;
 }
 
-bool Board::fourInARow(player &p) {
+bool Board::fourInARow(player &p) const{
     //before we search, check to see if this board has been searched
     if (fiarSet) {
-        p = fiar;
         return fourInARowFound;
     }
     //search for four in a row
@@ -84,8 +84,7 @@ bool Board::fourInARow(player &p) {
                 if (rowCount[x] > y && board[x][y]) {
                     for (int direction = 0; direction < 8; direction++) {
                         if(fourInThisRow(x, y, direction) == 4) {
-                            p = board[x][y];
-                            fiar = p;
+                            fiar = board[x][y];
                             fourInARowFound = true;
                             fiarSet = true;
                             return true;
@@ -110,7 +109,7 @@ bool Board::fourInARow(player &p) {
  * |5|6|7|
  * +-----+
  */
-int Board::fourInThisRow(int x, int y, int direction) {
+int Board::fourInThisRow(int x, int y, int direction) const {
     int answer = 1;
     switch (direction) {
         case 0: if (x < WIDTH - 1) {

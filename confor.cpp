@@ -19,7 +19,7 @@ int main(int argc, char * argv[]) {
     int playCount = 0;
     while (1) {
         printf("strategizing...\n");
-        MiniMaxTree miniMaxTree(board,(playCount > 35) ? 42 - playCount : 7);
+        MiniMaxTree miniMaxTree(board,(playCount > 35) ? 42 - playCount : 8);
         int move = miniMaxTree.getBestMove();
         printf("The computer has moved at column: %d\n\n", move);
         board.playAt(move, PLAYER_ONE);

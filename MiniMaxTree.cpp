@@ -12,8 +12,7 @@ MiniMaxTree::~MiniMaxTree() {
 }
 
 int MiniMaxTree::getBestMove() {
-    Board board = rootBoard;
-    BestMove bm = getBestMoveScore(board, PLAYER_TWO, ply);
+    BestMove bm = getBestMoveScore(rootBoard, PLAYER_TWO, ply);
     //printf("nodesVisited: %d\n", nodesVisited);
     //printf("score: %d\n", bm.score);
     return bm.columnPlayed;
@@ -26,7 +25,6 @@ BestMove MiniMaxTree::getBestMoveScore(Board board, player p, int currentPly) {
     player x;
     if (currentPly == 0 || board.fourInARow(x)) {
         bestMove.score = board.getScore(p);
-        //board.displayBoard();
         if (p == PLAYER_TWO)
             bestMove.score = bestMove.score * -1;
         bestMove.columnPlayed = board.getLastMove();
