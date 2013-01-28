@@ -40,6 +40,8 @@ class Board {
         int rowCount[WIDTH];
         int lastMove;
         int positionValues[WIDTH][HEIGHT];
+        bool fourInARowFound, fiarSet;
+        player fiar;
 };
 
 #endif

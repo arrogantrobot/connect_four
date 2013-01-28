@@ -15,6 +15,7 @@ int MiniMaxTree::getBestMove() {
     Board board = rootBoard;
     BestMove bm = getBestMoveScore(board, PLAYER_TWO, ply);
     printf("nodesVisited: %d\n", nodesVisited);
+    printf("score: %d\n", bm.score);
     return bm.columnPlayed;
 }
 
@@ -35,15 +36,17 @@ BestMove MiniMaxTree::getBestMoveScore(Board board, player p, int currentPly) {
             BestMove local = getBestMoveScore(board, next, currentPly - 1);
             board.unPlayAt(board.getLastMove());
 
-            if (p == PLAYER_ONE) {
+            //if (p == PLAYER_ONE) {
                 if (local.score > bestMove.score) {
+                    printf("best move p: %d  col: %d  score: %d\n",next, local.columnPlayed, local.score);
                     bestMove = local;
                 }
-            } else {
+            /*} else {
                 if (local.score > bestMove.score) {
+                    printf("best move p2, col: %d  score: %d\n", local.columnPlayed, local.score);
                     bestMove = local;
                 }
-            }
+            }*/
         }
     }
     return bestMove; 

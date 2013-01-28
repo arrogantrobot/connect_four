@@ -41,6 +41,9 @@ void Board::initBoard() {
     score = 0;
     lastMove = -1;
     populatePositionValues();
+    fiar = OPEN;
+    fourInARowFound = false;
+    fiarSet = false;
     for (int x = 0; x < WIDTH; x++) {
         rowCount[x] = 0;
         for(int y = 0; y < HEIGHT; y++) {
@@ -60,6 +63,12 @@ int Board::getScore(player p) {
 }
 
 bool Board::fourInARow(player &p) {
+    //before we search, check to see if this board has been searched
+    if (fiarSet) {
+        p = fiar;
+        return fourInARowFound;
+    }
+    //search for four in a row
     for (int x = 0; x < WIDTH; x++) {
         if (rowCount[x]) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -67,8 +76,9 @@ bool Board::fourInARow(player &p) {
                     for (int direction = 0; direction < 8; direction++) {
                         if(fourInThisRow(x, y, direction) == 4) {
                             p = board[x][y];
-                            //printf("Found 4 in a row, from player: %d\n", p);
-                            //displayBoard();
+                            fiar = p;
+                            fourInARowFound = true;
+                            fiarSet = true;
                             return true;
                         }
                     }
@@ -78,6 +88,19 @@ bool Board::fourInARow(player &p) {
     }
 }
 
+/**
+ *  Search for four in a row in direction 
+ *
+ *  Direction is zero at 0 degrees:
+ *
+ * +-----+
+ * |3|2|1|
+ * |-+-+-|    
+ * |4|X|0| 
+ * |-+-+-|
+ * |5|6|7|
+ * +-----+
+ */
 int Board::fourInThisRow(int x, int y, int direction) {
     int answer = 1;
     switch (direction) {
@@ -141,7 +164,7 @@ int Board::fourInThisRow(int x, int y, int direction) {
 }
 
 void Board::displayBoard() {
-    printf("\n");
+    //printf("\n");
     for (int y = HEIGHT - 1; y >= 0; y--) {
         for (int x = 0; x < WIDTH; x++) {
             printf("%d ", getPosition(x,y));
@@ -149,8 +172,8 @@ void Board::displayBoard() {
         printf("\n");
     }
     printf("last move: %d\n", lastMove);
-    displayRowCount();
-    printf("\n");
+    //displayRowCount();
+    //printf("\n");
 }
 
 void Board::displayRowCount() {
@@ -192,9 +215,14 @@ bool Board::playAt(int x, player p1) {
 }
 
 void Board::unPlayAt(int x) {
-    rowCount[x]--;
-    board[x][rowCount[x]] = OPEN;
-    lastMove = -1;
+    if (rowCount[x] > 1) {
+        rowCount[x]--;
+        board[x][rowCount[x]] = OPEN;
+        lastMove = -1;
+        fiar = OPEN;
+        fiarSet = false;
+        fourInARowFound = false;
+    }
 }
 
 int Board::getLastMove() const {

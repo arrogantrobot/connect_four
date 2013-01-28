@@ -1,5 +1,7 @@
 *.sw?
 connect_four
+games
+connect_four_test
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
