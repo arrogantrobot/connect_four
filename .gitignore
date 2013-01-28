@@ -1,5 +1,8 @@
 *.sw?
+*.o
+*.a
 connect_four
+confour
 games
 connect_four_test
 CMakeFiles

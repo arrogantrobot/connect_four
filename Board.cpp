@@ -66,7 +66,7 @@ int Board::getScore(player p) {
     player who;
     score += getPositionalScore(p);
     if (fourInARow(who))
-        score = (p != who) ? INT_MIN : score = INT_MAX;
+        score = INT_MAX;
     
     return score;
 }
@@ -215,6 +215,8 @@ player Board::getPosition(int x, int y) const {
 }
 
 bool Board::playAt(int x, player p1) {
+    if (x < 0) 
+        return false;
     if (!canPlay(x))
         return false;
     board[x][rowCount[x]] = p1;

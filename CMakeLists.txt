@@ -4,6 +4,12 @@ add_executable(connect_four
     MiniMaxTree.cpp
 )
 
+add_executable(confour
+	confor.cpp
+	Board.cpp
+    MiniMaxTree.cpp
+)
+
 add_subdirectory(gtest-1.6.0)
 add_executable(connect_four_test
     ConnectFourTest.cpp

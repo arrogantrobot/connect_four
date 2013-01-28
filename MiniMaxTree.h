@@ -5,7 +5,7 @@
 #include "Board.h"
 
 struct BestMove {
-    BestMove(): columnPlayed(-1),score(INT_MIN) {}
+    BestMove(): columnPlayed(-1),score(0) {}
     int columnPlayed;
     int score;
 };
