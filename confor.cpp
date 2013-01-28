@@ -18,14 +18,15 @@ int main(int argc, char * argv[]) {
     bool fiar = false;
     int playCount = 0;
     while (1) {
+        printf("strategizing...\n");
         MiniMaxTree miniMaxTree(board,(playCount > 35) ? 42 - playCount : 7);
         int move = miniMaxTree.getBestMove();
         printf("The computer has moved at column: %d\n\n", move);
         board.playAt(move, PLAYER_ONE);
         playCount++;
+        printf("0 1 2 3 4 5 6\n");
         board.displayBoard();
-        printf("===============\n");
-        printf("0 1 2 3 4 5 6 7\n");
+        printf("0 1 2 3 4 5 6\n");
         player p = OPEN;
         if (board.fourInARow(p)) {
             printf("The computer has won!\n");

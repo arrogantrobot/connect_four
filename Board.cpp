@@ -176,11 +176,20 @@ void Board::displayBoard() {
     //printf("\n");
     for (int y = HEIGHT - 1; y >= 0; y--) {
         for (int x = 0; x < WIDTH; x++) {
-            printf("%d ", getPosition(x,y));
+            char out;
+            switch(getPosition(x,y)) {
+            case OPEN: out = '.';
+                       break;
+            case PLAYER_ONE: out = 'X';
+                       break;
+            case PLAYER_TWO: out = 'O';
+                       break;
+            }
+            printf("%c ", out);
         }
         printf("\n");
     }
-    printf("last move: %d\n", lastMove);
+    //printf("last move: %d\n", lastMove);
     //displayRowCount();
     //printf("\n");
 }
