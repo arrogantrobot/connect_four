@@ -18,4 +18,6 @@ TEST(ConnectFourTest, BoardSetupFromFiles) {
     Board board(path);
     player p = OPEN;
     EXPECT_FALSE(board.fourInARow(p));
+    Board boardNew;
+    EXPECT_EQ(board, boardNew);
 }   

@@ -26,6 +26,7 @@ class Board {
         void displayBoard();
         void displayRowCount();
         bool fourInARow(player &p);
+        bool operator==(const Board& rhs) const;
 
     private:
         void initBoard();

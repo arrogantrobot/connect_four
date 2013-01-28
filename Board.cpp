@@ -37,6 +37,15 @@ Board::~Board() {
 
 }
 
+bool Board::operator==(const Board& rhs) const {
+    for (int x = 0; x < WIDTH; x++) {
+        for (int y = 0; y < HEIGHT; y++) {
+            if (board[x][y] != rhs.board[x][y]) return false;
+        }
+    }
+    return true;
+}
+
 void Board::initBoard() {
     score = 0;
     lastMove = -1;
