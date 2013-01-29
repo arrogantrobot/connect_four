@@ -12,7 +12,7 @@ struct BestMove {
 
 class MiniMaxTree {
     public:
-        MiniMaxTree(const Board &_board, int ply);
+        MiniMaxTree(const Board &_board, player p, int ply);
         ~MiniMaxTree();
         int getBestMove();
         BestMove getBestMoveScore(Board board, player p, int ply);
@@ -20,5 +20,6 @@ class MiniMaxTree {
         int ply;
         int nodesVisited;
         Board rootBoard;
+        player computer, miniMaxSeed;
 };
 #endif

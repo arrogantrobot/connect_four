@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "MiniMaxTree.h"
 
-MiniMaxTree::MiniMaxTree(const Board &_board, int _ply) {
+MiniMaxTree::MiniMaxTree(const Board &_board, player p, int _ply) {
+    computer = p;
+    miniMaxSeed = (p == PLAYER_ONE) ? PLAYER_TWO : PLAYER_ONE;
     ply = _ply;
     nodesVisited = 0;
     rootBoard = _board;
@@ -12,20 +14,18 @@ MiniMaxTree::~MiniMaxTree() {
 }
 
 int MiniMaxTree::getBestMove() {
-    BestMove bm = getBestMoveScore(rootBoard, PLAYER_TWO, ply);
-    //printf("nodesVisited: %d\n", nodesVisited);
-    //printf("score: %d\n", bm.score);
+    BestMove bm = getBestMoveScore(rootBoard, miniMaxSeed, ply);
     return bm.columnPlayed;
 }
 
 BestMove MiniMaxTree::getBestMoveScore(Board board, player p, int currentPly) {
     BestMove bestMove;
-    bestMove.score = (p == PLAYER_TWO) ? INT_MIN : INT_MAX;
+    bestMove.score = (p != computer) ? INT_MIN : INT_MAX;
     nodesVisited++;
     player x;
     if (currentPly == 0 || board.boardFull() || board.fourInARow(x)) {
         bestMove.score = board.getScore(p);
-        if (p == PLAYER_TWO)
+        if (p == miniMaxSeed)
             bestMove.score = bestMove.score * -1;
         bestMove.columnPlayed = board.getLastMove();
         return bestMove;
@@ -39,7 +39,7 @@ BestMove MiniMaxTree::getBestMoveScore(Board board, player p, int currentPly) {
             local.columnPlayed = i;
             board.unPlayAt(i);
 
-            if (next == PLAYER_ONE) {
+            if (next == computer) {
                 if (local.score > bestMove.score) {
                     //printf("best move p: %d  col: %d  score: %d\n",next, local.columnPlayed, local.score);
                     bestMove = local;

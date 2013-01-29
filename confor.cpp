@@ -2,44 +2,69 @@
 #include "MiniMaxTree.h"
 #include "Board.h"
 
-int getPlayerMove() {
+void showBoard(Board &board) {
+
+    printf("0 1 2 3 4 5 6\n");
+    board.displayBoard();
+    printf("0 1 2 3 4 5 6\n");
+
+}
+
+bool playerMoves(Board &board, player human, int &playCount) {
     printf("Enter the column you wish to move at: ");
     int move = -1;
     int rc = 0;
     rc = fscanf(stdin, "%d", &move);
-    return move;
+    board.playAt(move, human);
+    playCount++;
+    player p = OPEN;
+    if (board.fourInARow(p)) {
+        printf("You have won!\n");
+        return true;
+    }
+    return false;
 }
+
+bool computerMoves(Board &board, player computer, int &playCount) {
+    printf("strategizing...\n");
+    MiniMaxTree miniMaxTree(board, computer,
+            (playCount > 35) ? 42 - playCount : 8);
+    int move = miniMaxTree.getBestMove();
+    printf("The computer has moved at column: %d\n\n", move);
+    board.playAt(move, computer);
+    playCount++;
+    player p = OPEN;
+    if (board.fourInARow(p)) {
+        printf("The computer has won!\n");
+        return true;
+    }
+    return false;
+}
+
 int main(int argc, char * argv[]) {
+    bool compFirst = argc == 1;
     printf("\nConnect Four\n");
     printf("============\n");
     printf("\n");
-    Board board;
-    //board.displayBoard();
     bool fiar = false;
+    bool over = false;
     int playCount = 0;
+    Board board;
+    player computer = compFirst ? PLAYER_ONE : PLAYER_TWO;
+    player human = compFirst ? PLAYER_TWO : PLAYER_ONE;
+    showBoard(board);
+
     while (1) {
-        printf("strategizing...\n");
-        MiniMaxTree miniMaxTree(board,(playCount > 35) ? 42 - playCount : 8);
-        int move = miniMaxTree.getBestMove();
-        printf("The computer has moved at column: %d\n\n", move);
-        board.playAt(move, PLAYER_ONE);
-        playCount++;
-        printf("0 1 2 3 4 5 6\n");
-        board.displayBoard();
-        printf("0 1 2 3 4 5 6\n");
-        player p = OPEN;
-        if (board.fourInARow(p)) {
-            printf("The computer has won!\n");
-            break;
-        }
-        move = getPlayerMove();
-        board.playAt(move, PLAYER_TWO);
-        playCount++;
-        if (board.fourInARow(p)) {
-            printf("You have won!\n");
-            break;
-        }
+        over = compFirst ? computerMoves(board, computer, playCount)
+            : playerMoves(board, human, playCount);
+        if (over) break;
+        if (compFirst) showBoard(board);
+        over = compFirst ? playerMoves(board, human, playCount)
+            : computerMoves(board, computer, playCount);
+        if (over) break;
+        if (!compFirst) showBoard(board);
     }
+
     board.displayBoard();
 
     return 0;
