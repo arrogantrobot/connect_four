@@ -17,8 +17,7 @@ bool playerMoves(Board &board, player human, int &playCount) {
     rc = fscanf(stdin, "%d", &move);
     board.playAt(move, human);
     playCount++;
-    player p = OPEN;
-    if (board.fourInARow(p)) {
+    if (board.fourInARow()) {
         printf("You have won!\n");
         return true;
     }
@@ -33,8 +32,7 @@ bool computerMoves(Board &board, player computer, int &playCount) {
     printf("The computer has moved at column: %d\n\n", move);
     board.playAt(move, computer);
     playCount++;
-    player p = OPEN;
-    if (board.fourInARow(p)) {
+    if (board.fourInARow()) {
         printf("The computer has won!\n");
         return true;
     }

@@ -68,12 +68,12 @@ int Board::getScore(const player p) const {
     if (boardFull()) return 0;
     player who = OPEN;
     score += getPositionalScore(p);
-    if (fourInARow(who))
+    if (fourInARow())
         score = INT_MAX;
     return score;
 }
 
-bool Board::fourInARow(player &p) const{
+bool Board::fourInARow() const{
     //before we search, check to see if this board has been searched
     if (fiarSet) {
         return fourInARowFound;
@@ -172,7 +172,7 @@ int Board::fourInThisRow(int x, int y, int direction) const {
     return answer;
 }
 
-void Board::displayBoard() {
+void Board::displayBoard() const {
     //printf("\n");
     for (int y = HEIGHT - 1; y >= 0; y--) {
         for (int x = 0; x < WIDTH; x++) {
@@ -194,7 +194,7 @@ void Board::displayBoard() {
     //printf("\n");
 }
 
-void Board::displayRowCount() {
+void Board::displayRowCount() const {
     for (int i = 0; i < WIDTH; i++) {
         printf("row: %d   pieces: %d\n", i, rowCount[i]);
     }
@@ -236,7 +236,7 @@ bool Board::playAt(int x, player p1) {
 }
 
 void Board::unPlayAt(int x) {
-    if (rowCount[x] > 1) {
+    if (rowCount[x] > 0) {
         rowCount[x]--;
         playCount--;
         board[x][rowCount[x]] = OPEN;
@@ -251,7 +251,7 @@ int Board::getLastMove() const {
     return lastMove;
 }
 
-bool Board::canPlay(int x) {
+bool Board::canPlay(int x) const {
     return rowCount[x] < HEIGHT;
 }
 

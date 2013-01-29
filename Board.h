@@ -19,17 +19,17 @@ class Board {
         ~Board();
         player getPosition(int x, int y) const;
         bool playAt(int x, player p1);
-        bool canPlay(int x);
+        bool canPlay(int x) const;
         int getScore(const player p) const;
         int getLastMove() const;
         void unPlayAt(int x);
-        void displayBoard();
-        void displayRowCount();
-        bool fourInARow(player &p) const;
+        void displayBoard() const;
+        void displayRowCount() const;
+        bool fourInARow() const;
         bool boardFull() const;
         bool operator==(const Board& rhs) const;
 
-    private:
+    protected:
         void initBoard();
         void initRowCount();
         void addLine(const std::string &line, int row);
