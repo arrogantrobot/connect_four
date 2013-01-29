@@ -17,8 +17,8 @@ class MiniMaxTree {
         int getBestMove();
         BestMove getBestMoveScore(Board board, player p, int ply);
     private:
-        int ply;
         int nodesVisited;
+        int ply;
         Board rootBoard;
         player computer, miniMaxSeed;
 };

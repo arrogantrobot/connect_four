@@ -9,9 +9,7 @@ MiniMaxTree::MiniMaxTree(const Board &_board, player p, int _ply) {
     rootBoard = _board;
 }
 
-MiniMaxTree::~MiniMaxTree() {
-
-}
+MiniMaxTree::~MiniMaxTree() {}
 
 int MiniMaxTree::getBestMove() {
     BestMove bm = getBestMoveScore(rootBoard, miniMaxSeed, ply);
@@ -41,12 +39,10 @@ BestMove MiniMaxTree::getBestMoveScore(Board board, player p, int currentPly) {
 
             if (next == computer) {
                 if (local.score > bestMove.score) {
-                    //printf("best move p: %d  col: %d  score: %d\n",next, local.columnPlayed, local.score);
                     bestMove = local;
                 }
             } else {
                 if (local.score < bestMove.score) {
-                    //printf("best move p: %d  col: %d  score: %d\n", next, local.columnPlayed, local.score);
                     bestMove = local;
                 }
             }
