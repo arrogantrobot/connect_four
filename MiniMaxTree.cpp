@@ -23,7 +23,7 @@ BestMove MiniMaxTree::getBestMoveScore(Board board, player p, int currentPly) {
     bestMove.score = (p == PLAYER_TWO) ? INT_MIN : INT_MAX;
     nodesVisited++;
     player x;
-    if (currentPly == 0 || board.fourInARow(x)) {
+    if (currentPly == 0 || board.boardFull() || board.fourInARow(x)) {
         bestMove.score = board.getScore(p);
         if (p == PLAYER_TWO)
             bestMove.score = bestMove.score * -1;

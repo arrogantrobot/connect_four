@@ -26,6 +26,7 @@ class Board {
         void displayBoard();
         void displayRowCount();
         bool fourInARow(player &p) const;
+        bool boardFull() const;
         bool operator==(const Board& rhs) const;
 
     private:
@@ -40,6 +41,7 @@ class Board {
         int rowCount[WIDTH];
         int positionValues[WIDTH][HEIGHT];
 
+        int playCount;
         int score;
         int lastMove;
         mutable bool fourInARowFound;

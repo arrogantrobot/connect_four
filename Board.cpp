@@ -65,6 +65,7 @@ void Board::initBoard() {
 
 int Board::getScore(const player p) const {
     int score = 0;
+    if (boardFull()) return 0;
     player who = OPEN;
     score += getPositionalScore(p);
     if (fourInARow(who))
@@ -229,6 +230,7 @@ bool Board::playAt(int x, player p1) {
         return false;
     board[x][rowCount[x]] = p1;
     rowCount[x]++;
+    playCount++;
     lastMove = x;
     return true;
 }
@@ -236,6 +238,7 @@ bool Board::playAt(int x, player p1) {
 void Board::unPlayAt(int x) {
     if (rowCount[x] > 1) {
         rowCount[x]--;
+        playCount--;
         board[x][rowCount[x]] = OPEN;
         lastMove = -1;
         fiar = OPEN;
@@ -250,6 +253,10 @@ int Board::getLastMove() const {
 
 bool Board::canPlay(int x) {
     return rowCount[x] < HEIGHT;
+}
+
+bool Board::boardFull() const {
+   return playCount >= WIDTH * HEIGHT;
 }
 
 int Board::getPositionalScore(player p) const {
