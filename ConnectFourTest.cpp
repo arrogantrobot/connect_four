@@ -42,14 +42,36 @@ TEST(ConnectFourTest, Moves) {
     board.unPlayAt(0);
     board.getBoard(b);
     EXPECT_EQ(OPEN, b[0][0]);
+
+    EXPECT_FALSE(board.playAt(-1, PLAYER_ONE));
+    EXPECT_FALSE(board.canPlay(-1));
+
+    TestBoard board2;
+    board2.playAt(0, PLAYER_ONE);
+    board2.playAt(0, PLAYER_ONE);
+    board2.playAt(0, PLAYER_ONE);
+    board2.playAt(0, PLAYER_ONE);
+    board2.playAt(0, PLAYER_ONE);
+    board2.playAt(0, PLAYER_ONE);
+
+    EXPECT_FALSE(board2.playAt(0, PLAYER_ONE));
 }
 
 TEST(ConnectFourTest, EvaluateMoves) {
     TestBoard board;
-    board.playAt(0, PLAYER_ONE);
-    board.playAt(1, PLAYER_ONE);
-    board.playAt(2, PLAYER_ONE);
-    board.playAt(3, PLAYER_ONE);
+    EXPECT_FALSE(board.fourInARow());
+
+    EXPECT_TRUE(board.playAt(0, PLAYER_ONE));
+    EXPECT_FALSE(board.fourInARow());
+
+    EXPECT_TRUE(board.playAt(1, PLAYER_ONE));
+    EXPECT_FALSE(board.fourInARow());
+
+    EXPECT_TRUE(board.playAt(2, PLAYER_ONE));
+    EXPECT_FALSE(board.fourInARow());
+
+    EXPECT_TRUE(board.playAt(3, PLAYER_ONE));
+
     int b[WIDTH][HEIGHT];
     board.getBoard(b);
     EXPECT_TRUE(board.fourInARow());

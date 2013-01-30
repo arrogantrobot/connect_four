@@ -15,19 +15,24 @@ typedef enum {
 class Board {
     public:
         Board();
+        Board(const Board &board);
         Board(const std::string &path);
         ~Board();
-        player getPosition(int x, int y) const;
-        bool playAt(int x, player p1);
-        bool canPlay(int x) const;
-        int getScore(const player p) const;
-        int getLastMove() const;
+
         void unPlayAt(int x);
         void displayBoard() const;
         void displayRowCount() const;
+
+        bool playAt(int x, player p1);
+        bool canPlay(int x) const;
         bool fourInARow() const;
         bool boardFull() const;
         bool operator==(const Board& rhs) const;
+
+        int getScore(const player p) const;
+        int getLastMove() const;
+
+        player getPosition(int x, int y) const;
 
     protected:
         void initBoard();

@@ -30,9 +30,23 @@ Board::Board(const std::string &path) {
     }
 }
 
-/*Board::Board(const Board &board) {
-    
-}*/
+Board::Board(const Board &_board) {
+    for (int x = 0; x < WIDTH; x++) {
+        for (int y = 0; y < HEIGHT; y++) {
+            board[x][y] = _board.board[x][y];
+            positionValues[x][y] = _board.positionValues[x][y];
+        }
+    }
+    for (int i = 0; i < WIDTH; i++) {
+        rowCount[i] = _board.rowCount[i];
+    }
+    playCount = _board.playCount;
+    score = _board.score;
+    lastMove = _board.lastMove;
+    fourInARowFound = _board.fourInARowFound;
+    fiarSet = _board.fiarSet;
+    fiar = _board.fiar;
+}
 
 Board::~Board() {
 
@@ -95,6 +109,7 @@ bool Board::fourInARow() const{
             }
         }
     }
+    return false;
 }
 
 /**
@@ -224,7 +239,7 @@ player Board::getPosition(int x, int y) const {
 }
 
 bool Board::playAt(int x, player p1) {
-    if (x < 0) 
+    if (x < 0 || x >= WIDTH) 
         return false;
     if (!canPlay(x))
         return false;
@@ -252,7 +267,7 @@ int Board::getLastMove() const {
 }
 
 bool Board::canPlay(int x) const {
-    return rowCount[x] < HEIGHT;
+    return (x >= 0 && x < WIDTH) && rowCount[x] < HEIGHT;
 }
 
 bool Board::boardFull() const {
