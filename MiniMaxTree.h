@@ -15,11 +15,14 @@ class MiniMaxTree {
         MiniMaxTree(const Board &_board, player p, int ply);
         ~MiniMaxTree();
         int getBestMove();
+        int getBestMoveAB();
         BestMove getBestMoveScore(Board board, player p, int ply);
-    private:
+        BestMove getBestMoveScoreAB(Board board, player p, int ply);
+    protected:
         int nodesVisited;
         int ply;
         Board rootBoard;
         player computer, miniMaxSeed;
 };
+
 #endif

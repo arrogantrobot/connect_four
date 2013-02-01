@@ -76,3 +76,11 @@ TEST(ConnectFourTest, EvaluateMoves) {
     board.getBoard(b);
     EXPECT_TRUE(board.fourInARow());
 }
+
+TEST(ConnectFourTest, MiniMaxTreeTests) {
+    Board board;
+    MiniMaxTree mmt(board, PLAYER_ONE, 1);
+    int move = mmt.getBestMove();
+    EXPECT_EQ(move, 3);
+    printf("move = %d\n", move);
+}
