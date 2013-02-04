@@ -80,11 +80,10 @@ void Board::initBoard() {
 int Board::getScore(const player p) const {
     int score = 0;
     if (boardFull()) return 0;
-    player who = OPEN;
     score += getPositionalScore(p);
     if (fourInARow())
         score = INT_MAX;
-    return score;
+    return -1 * score;
 }
 
 bool Board::fourInARow() const{
