@@ -27,7 +27,7 @@ bool playerMoves(Board &board, player human, int &playCount) {
 bool computerMoves(Board &board, player computer, int &playCount) {
     printf("strategizing...\n");
     MiniMaxTree miniMaxTree(board, computer,
-            (playCount > 35) ? 42 - playCount : 8);
+            (playCount > 37) ? 42 - playCount : 5);
     int move = miniMaxTree.getBestMove();
     printf("The computer has moved at column: %d\n\n", move);
     board.playAt(move, computer);
